@@ -4,6 +4,9 @@ const express = require("express");
 const { errorLogger, errorResponser } = require("../common/httpErrors");
 
 async function loader(app) {
+  //MYSQL
+  await databaseConnection();
+
   //log
   app.use(logger("dev"));
 
@@ -38,6 +41,17 @@ function errorHandler(app) {
   return app;
 }
 
+//MYSQL
+async function databaseConnection() {
+  const { sequelize } = require("../models");
+
+  await sequelize.sync({ force: true, alter: true }).catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+
+  console.log("[MYSQL] 설정 완료");
+}
 //TODO: 많아지면 모듈로 나누기
 
 module.exports = { loader };
