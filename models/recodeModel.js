@@ -18,7 +18,7 @@ module.exports = function (sequelize) {
         allowNull: true,
         defaultValue: 0,
       },
-      startTime: {
+      enterTime: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,

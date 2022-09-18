@@ -2,6 +2,7 @@ const logger = require("morgan");
 const express = require("express");
 
 const { errorLogger, errorResponser } = require("../common/httpErrors");
+const router = require("../routes");
 
 async function loader(app) {
   //MYSQL
@@ -10,7 +11,7 @@ async function loader(app) {
   //log
   app.use(logger("dev"));
 
-  //http
+  //express
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
@@ -24,9 +25,7 @@ async function loader(app) {
 
 //routes
 function routerRegister(app) {
-  app.use("/api/users", (req, res, next) => {
-    console.log("api users");
-  });
+  app.use("/api", router);
 
   console.log("[routerResiter] 설정 완료");
   return app;
@@ -45,7 +44,7 @@ function errorHandler(app) {
 async function databaseConnection() {
   const { sequelize } = require("../models");
 
-  await sequelize.sync({ force: true, alter: true }).catch((error) => {
+  await sequelize.sync({ force: false, alter: true }).catch((error) => {
     console.error(error);
     process.exit(1);
   });
