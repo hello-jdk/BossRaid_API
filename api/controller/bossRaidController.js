@@ -19,11 +19,10 @@ async function getRaidStatus(req, res, next) {
 }
 
 async function enterRaid(req, res, next) {
-  //정보
   const { userId, level } = req.body;
 
   try {
-    //레이드 입장가능 여부확인
+    //레이드 입장가능 여부
     const raidStatus = await BossRaidService.getRaidStatus();
     const canEnter = raidStatus.canEnter;
 
