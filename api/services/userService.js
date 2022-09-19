@@ -1,6 +1,7 @@
-const UserRepository = require("./userRepository");
+const UserRepository = require("../dao/userDAO");
+const RecodeRepository = require("../dao/recodeDAO");
 
-const { BadRequestError } = require("../common/httpErrors");
+const { BadRequestError } = require("../../interface/errorType");
 
 //TODO: 두개로 나누기
 async function createUserGetId() {
@@ -22,4 +23,9 @@ async function getUserScore(userId) {
   return userTotalScore;
 }
 
-module.exports = { createUserGetId, getUserScore };
+async function getUserRecode(userId) {
+  const userRecodes = await RecodeRepository.getRecodeByUserId(userId);
+  return userRecodes;
+}
+
+module.exports = { createUserGetId, getUserScore, getUserRecode };

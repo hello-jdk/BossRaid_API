@@ -20,7 +20,7 @@ module.exports = function (sequelize) {
       collate: "utf8mb4_general_ci",
       timestamps: false,
       freezeTableName: true,
-    }
+    },
   );
 
   User.associate = (models) => {

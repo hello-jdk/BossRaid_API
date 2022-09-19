@@ -1,12 +1,16 @@
 const logger = require("morgan");
 const express = require("express");
 
-const { errorLogger, errorResponser } = require("../common/httpErrors");
-const router = require("../routes");
+const { errorLogger, errorResponser } = require("./errorHandler");
+const { sequelize, redis } = require("../models");
+const { router } = require("../routes");
 
 async function loader(app) {
   //MYSQL
   await databaseConnection();
+
+  //Redis
+  const redisClient = await redisConnection();
 
   //log
   app.use(logger("dev"));
@@ -19,8 +23,30 @@ async function loader(app) {
   routerRegister(app);
   errorHandler(app);
 
-  console.log("[ㄴloaders] 완료");
   return app;
+}
+
+//MYSQL
+async function databaseConnection() {
+  await sequelize.sync({ force: false, alter: true }).catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+
+  console.log("[MYSQL] 설정 완료");
+}
+
+//REDIS
+async function redisConnection() {
+  redis.on("connect", () => {
+    console.info("[REDIS] 설정 완료");
+  });
+
+  redis.on("error", (error) => {
+    console.error(error);
+  });
+
+  await redis.connect().then();
 }
 
 //routes
@@ -40,17 +66,6 @@ function errorHandler(app) {
   return app;
 }
 
-//MYSQL
-async function databaseConnection() {
-  const { sequelize } = require("../models");
-
-  await sequelize.sync({ force: false, alter: true }).catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
-
-  console.log("[MYSQL] 설정 완료");
-}
 //TODO: 많아지면 모듈로 나누기
 
 module.exports = { loader };

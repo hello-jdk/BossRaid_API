@@ -19,12 +19,11 @@ module.exports = function (sequelize) {
         defaultValue: 0,
       },
       enterTime: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: DataTypes.NOW,
       },
       endTime: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: true,
       },
     },
@@ -33,7 +32,7 @@ module.exports = function (sequelize) {
       collate: "utf8mb4_general_ci",
       timestamps: false,
       freezeTableName: true,
-    }
+    },
   );
 
   Recode.associate = (models) => {
