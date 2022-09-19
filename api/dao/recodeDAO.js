@@ -11,13 +11,29 @@ async function getRecodeByUserId(userId) {
   }
 }
 
-async function createRecode(recodeVO) {
+async function createRecode(recode) {
   try {
-    return await recodeModel.create(recodeVO);
+    return await recodeModel.create(recode);
   } catch (error) {
-    console.error(error);
     throw new Error("createRecode 에러");
   }
 }
 
-module.exports = { getRecodeByUserId, createRecode };
+async function updateRecode(recode) {
+  try {
+    return await recodeModel.update(recode, { where: { id: recode.id } });
+  } catch (error) {
+    console.error(error);
+    throw new Error("updateRecode 에러");
+  }
+}
+
+async function getRecodeForEnd(userId, raidRecordId) {
+  try {
+    return await recodeModel.findOne({ where: { userId, id: raidRecordId }, raw: true });
+  } catch (error) {
+    throw new Error("getRecodeForEnd 에러");
+  }
+}
+
+module.exports = { getRecodeByUserId, createRecode, updateRecode, getRecodeForEnd };

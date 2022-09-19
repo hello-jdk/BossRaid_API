@@ -11,7 +11,7 @@ router.get("/user/:userId", userController.getUser);
 //bossRaid
 router.get("/bossRaid", bossRaidController.getRaidStatus);
 router.post("/bossRaid/enter", bossRaidController.enterRaid);
-// router.patch("/bossRaid/end", bossRaidController);
+router.patch("/bossRaid/end", bossRaidController.endRaid);
 
 //topRankerList
 //ledis /bossRaid/topRankerList

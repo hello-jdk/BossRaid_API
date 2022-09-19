@@ -3,9 +3,6 @@ const { redis } = require("../../models");
 const URL = "https://dmpilf5svl7rv.cloudfront.net/assignment/backend/bossRaidData.json";
 
 async function checkRaidStatus() {
-  //
-  await redis.hSet(URL, "canEnter", 1);
-  //
   const canEnter = await redis.hGet(URL, "canEnter");
 
   if (canEnter == null) {
@@ -51,9 +48,20 @@ async function getRaidInfo(level) {
   return raidInfo;
 }
 
-async function updateRaidSatus(userId) {
+async function updateRaidSatusByEnter(userId, score) {
   await redis.hSet(URL, "canEnter", 0);
   await redis.hSet(URL, "enteredUserId", userId);
+  await redis.hSet(URL, "score", score);
+}
+
+async function updateRaidSatusByEnd() {
+  await redis.hSet(URL, "canEnter", 1);
+  await redis.hDel(URL, "enteredUserId");
+  await redis.hDel(URL, "score");
+}
+
+async function getScore() {
+  return await redis.hGet(URL, "score");
 }
 
 module.exports = {
@@ -62,5 +70,7 @@ module.exports = {
   checkRaidInfo,
   createRaidInfo,
   getRaidInfo,
-  updateRaidSatus,
+  updateRaidSatusByEnter,
+  updateRaidSatusByEnd,
+  getScore,
 };

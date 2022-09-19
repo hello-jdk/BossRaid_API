@@ -38,4 +38,18 @@ async function enterRaid(req, res, next) {
   }
 }
 
-module.exports = { getRaidStatus, enterRaid };
+async function endRaid(req, res, next) {
+  const { userId, raidRecordId } = req.body;
+  try {
+    //해당기록 존재여부
+    const recode = await BossRaidService.getRaidRecode(userId, raidRecordId);
+
+    //레이드 퇴장
+    await BossRaidService.endRaid(recode);
+    return res.status(StatusCodes.OK).send();
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { getRaidStatus, enterRaid, endRaid };
