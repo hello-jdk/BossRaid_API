@@ -10,7 +10,7 @@ async function loader(app) {
   await databaseConnection();
 
   //Redis
-  const redisClient = await redisConnection();
+  await redisConnection();
 
   //log
   app.use(logger("dev"));

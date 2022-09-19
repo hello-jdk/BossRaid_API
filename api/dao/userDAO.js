@@ -1,4 +1,4 @@
-const { userModel } = require("../../models");
+const { userModel, sequelize } = require("../../models");
 
 async function createUser() {
   try {
@@ -15,4 +15,17 @@ async function getUserById(userId) {
     throw new Error("getUserById 에러");
   }
 }
-module.exports = { createUser, getUserById };
+
+async function updateTotalScore(userId, score) {
+  const t = await sequelize.transaction();
+  try {
+    const user = await userModel.findByPk(userId, { raw: true, transaction: t });
+    user.totalScore = Number(user.totalScore) + Number(score);
+    await userModel.update(user, { where: { id: userId }, transaction: t });
+    await t.commit();
+  } catch (error) {
+    await t.rollback();
+    throw new Error("updateTotalScore 에러");
+  }
+}
+module.exports = { createUser, getUserById, updateTotalScore };
