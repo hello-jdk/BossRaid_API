@@ -14,6 +14,6 @@ router.post("/bossRaid/enter", bossRaidController.enterRaid);
 router.patch("/bossRaid/end", bossRaidController.endRaid);
 
 //topRankerList
-//ledis /bossRaid/topRankerList
+router.get("/bossRaid/topRankerList", bossRaidController.getRankerList);
 
 module.exports = { router };
