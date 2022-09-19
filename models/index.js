@@ -1,10 +1,12 @@
 const Sequelize = require("sequelize");
-const { MYSQL } = require("../config");
+const Redis = require("redis");
+const { MYSQL, REDIS } = require("../config");
 
+////MYSQL
 const sequelize = new Sequelize(MYSQL.DATABASE, MYSQL.USERNAME, MYSQL.PASSWORD, {
   host: MYSQL.HOST,
   dialect: MYSQL.DIALECT,
-  logging: true,
+  logging: false,
 });
 
 //모델 정의
@@ -21,4 +23,10 @@ Object.values(sequelize.models).forEach((model) => {
   }
 });
 
-module.exports = { sequelize, userModel, recodeModel };
+////REDIS
+const redis = Redis.createClient({
+  url: `redis://${REDIS.USERNAME}:${REDIS.PASSWORD}@${REDIS.HOST}:${REDIS.PORT}/0`,
+  //legacyMode: true,
+});
+
+module.exports = { sequelize, userModel, recodeModel, redis };

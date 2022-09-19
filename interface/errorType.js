@@ -1,4 +1,4 @@
-const { StatusCodes, getReasonPhrase } = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 //기본 에러 클래스
 class BasicError extends Error {
@@ -45,33 +45,10 @@ class ConflictError extends BasicError {
   }
 }
 
-// error 서버로그용
-const errorLogger = (err, req, res, next) => {
-  if (!err?.isCustom) {
-    console.error(err);
-  }
-  next(err);
-};
-
-// error response 용
-const errorResponser = (err, req, res, next) => {
-  const { statusCode, message, isCustom } = err;
-  if (isCustom) {
-    res.status(statusCode).json({ message: message });
-  } else {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR) });
-  }
-  next();
-};
-
 module.exports = {
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
   ConflictError,
-  errorLogger,
-  errorResponser,
 };
