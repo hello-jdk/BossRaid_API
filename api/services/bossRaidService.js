@@ -1,5 +1,4 @@
 const moment = require("moment");
-const { DataTypes } = require("sequelize");
 const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
 

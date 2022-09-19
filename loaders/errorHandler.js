@@ -8,7 +8,7 @@ const errorLogger = (err, req, res, next) => {
   next(err);
 };
 
-// error response 용
+// error response용
 const errorResponser = (err, req, res, next) => {
   const { statusCode, message, isCustom } = err;
   if (isCustom) {

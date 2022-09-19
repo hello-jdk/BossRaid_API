@@ -49,7 +49,7 @@ async function redisConnection() {
   await redis.connect().then();
 }
 
-//routes
+//Router
 function routerRegister(app) {
   app.use("/api", router);
 
@@ -57,7 +57,7 @@ function routerRegister(app) {
   return app;
 }
 
-//errorHandling
+//ErrorHandling
 function errorHandler(app) {
   app.use(errorLogger);
   app.use(errorResponser);
@@ -67,5 +67,4 @@ function errorHandler(app) {
 }
 
 //TODO: 많아지면 모듈로 나누기
-
 module.exports = { loader };

@@ -1,6 +1,4 @@
 const { StatusCodes } = require("http-status-codes");
-const { ConflictError } = require("../../interface/errorType");
-
 const BossRaidService = require("../services/bossRaidService");
 
 async function getRaidStatus(req, res, next) {

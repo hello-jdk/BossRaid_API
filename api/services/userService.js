@@ -1,6 +1,5 @@
 const UserRepository = require("../dao/userDAO");
 const RecodeRepository = require("../dao/recodeDAO");
-
 const { BadRequestError } = require("../../interface/errorType");
 
 //TODO: 두개로 나누기

@@ -26,7 +26,6 @@ Object.values(sequelize.models).forEach((model) => {
 ////REDIS
 const redis = Redis.createClient({
   url: `redis://${REDIS.USERNAME}:${REDIS.PASSWORD}@${REDIS.HOST}:${REDIS.PORT}/0`,
-  //legacyMode: true,
 });
 
 module.exports = { sequelize, userModel, recodeModel, redis };

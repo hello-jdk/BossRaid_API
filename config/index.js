@@ -1,13 +1,9 @@
 require("dotenv").config();
 
-/**
- * SERVER PORT
- */
+//SERVER PORT
 const PORT = process.env.PORT;
 
-/**
- * REDIS config
- */
+//REDIS config
 const REDIS = {
   HOST: process.env.REDIS_HOST,
   PORT: process.env.REDIS_PORT,
@@ -15,9 +11,7 @@ const REDIS = {
   PASSWORD: process.env.REDIS_PASSWORD,
 };
 
-/**
- * MYSQL config
- */
+//MYSQL config
 const MYSQL = {
   HOST: process.env.DB_HOST,
   DATABASE: process.env.DB_DATABASE,
@@ -26,6 +20,5 @@ const MYSQL = {
   DIALECT: "mysql",
 };
 
-module.exports = { PORT, REDIS, MYSQL };
-
 //TODO: 많아지면 모듈로 나누기
+module.exports = { PORT, REDIS, MYSQL };

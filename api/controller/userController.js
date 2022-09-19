@@ -1,6 +1,4 @@
 const UserService = require("../services/userService");
-const BossRaidService = require("../services/bossRaidService");
-
 const { StatusCodes } = require("http-status-codes");
 
 async function createUser(req, res, next) {

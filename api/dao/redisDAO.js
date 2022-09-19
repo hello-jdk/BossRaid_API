@@ -1,5 +1,4 @@
 const axios = require("axios").default;
-const e = require("express");
 const { redis } = require("../../models");
 const URL = "https://dmpilf5svl7rv.cloudfront.net/assignment/backend/bossRaidData.json";
 
