@@ -65,9 +65,11 @@ async function endRaid(recode) {
     //점수기록
     recode.endTime = moment().format("YYYY-MM-DD HH:mm:ss");
     recode.score = await RedisDAO.getScore();
+
+    //업데이트
     await RecodeDAO.updateRecode(recode);
-    await UserDAO.updateTotalScore(recode.userId, recode.score);
-    //total점수 올리기
+    const updatedUser = await UserDAO.updateTotalScore(recode.userId, recode.score);
+    await RedisDAO.updateTotalScore(updatedUser);
   }
 
   //보스레이드 상태변경

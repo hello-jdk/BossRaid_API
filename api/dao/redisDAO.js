@@ -75,6 +75,7 @@ async function updateRaidSatusByEnd() {
 //랭킹 생성
 async function createRank(userId) {
   userId = String(userId); //삭제하면안됨
+
   return await redis.ZADD("leaderboard", { value: userId, score: 0 });
 }
 
@@ -83,6 +84,7 @@ async function getTopRankList() {
   return await redis.zRangeWithScores("leaderboard", 0, -1);
 }
 
+//내 랭킹 정보 조회
 async function getMyRankingInfo(userId) {
   userId = String(userId);
 
@@ -93,6 +95,13 @@ async function getMyRankingInfo(userId) {
     .exec();
 
   return result;
+}
+
+async function updateTotalScore(user) {
+  const userId = String(user.id);
+  const totalScore = user.totalScore;
+
+  return await redis.ZADD("leaderboard", { value: userId, score: totalScore });
 }
 
 module.exports = {
@@ -107,4 +116,5 @@ module.exports = {
   createRank,
   getTopRankList,
   getMyRankingInfo,
+  updateTotalScore,
 };

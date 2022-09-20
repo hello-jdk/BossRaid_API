@@ -25,7 +25,9 @@ async function updateTotalScore(userId, score) {
     const user = await userModel.findByPk(userId, { raw: true, transaction: t });
     user.totalScore = Number(user.totalScore) + Number(score);
     await userModel.update(user, { where: { id: userId }, transaction: t });
+    const updatedUser = await userModel.findByPk(userId, { raw: true, transaction: t });
     await t.commit();
+    return updatedUser;
   } catch (error) {
     await t.rollback();
     throw new Error("updateTotalScore 에러");
