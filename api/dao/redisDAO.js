@@ -85,9 +85,14 @@ async function getTopRankList() {
 
 async function getMyRankingInfo(userId) {
   userId = String(userId);
-  const rank = await redis.ZREVRANK("leaderboard", userId);
-  const score = await redis.zScore("leaderboard", userId);
-  return { rank, score };
+
+  const result = await redis
+    .multi()
+    .ZREVRANK("leaderboard", userId)
+    .zScore("leaderboard", userId)
+    .exec();
+
+  return result;
 }
 
 module.exports = {

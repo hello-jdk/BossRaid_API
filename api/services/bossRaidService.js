@@ -86,7 +86,7 @@ async function getTopRankList() {
 //내 랭킹정보 조회
 async function getMyRankingInfo(userId) {
   const rawMyRankingInfo = await RedisDAO.getMyRankingInfo(userId);
-  const myRankingInfo = new RankingInfo(rawMyRankingInfo.rank + 1, userId, rawMyRankingInfo.score);
+  const myRankingInfo = new RankingInfo(rawMyRankingInfo[0] + 1, userId, rawMyRankingInfo[1]);
   return myRankingInfo;
 }
 
