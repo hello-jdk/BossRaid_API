@@ -3,6 +3,7 @@ const { BadRequestError } = require("../../interface/errorType");
 const UserDAO = require("../dao/userDAO");
 const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
+const { RankingInfo } = require("../../interface/RankingInfo");
 
 async function getRaidStatus() {
   const raidInfo = {};
@@ -32,7 +33,6 @@ async function enterRaid(userId, level) {
   //레이드 정보 가져오기
   const raidInfo = await RedisDAO.getRaidInfo(level);
 
-  //TODO: 리펙토링
   const bossRaidLimitSeconds = raidInfo.bossRaidLimitSeconds;
   const score = raidInfo.score;
 
@@ -65,13 +65,38 @@ async function endRaid(recode) {
     //점수기록
     recode.endTime = moment().format("YYYY-MM-DD HH:mm:ss");
     recode.score = await RedisDAO.getScore();
+
+    //업데이트
     await RecodeDAO.updateRecode(recode);
-    await UserDAO.updateTotalScore(recode.userId, recode.score);
-    //total점수 올리기
+    const updatedUser = await UserDAO.updateTotalScore(recode.userId, recode.score);
+    await RedisDAO.updateTotalScore(updatedUser);
   }
 
   //보스레이드 상태변경
   await RedisDAO.updateRaidSatusByEnd();
 }
 
-module.exports = { getRaidStatus, enterRaid, getRaidRecode, endRaid };
+//랭킹리스트 조회
+async function getTopRankList() {
+  const rawTopRankerList = await RedisDAO.getTopRankList();
+  const TopRankerList = rawTopRankerList.reverse().map((obj, index) => {
+    return new RankingInfo(index + 1, obj.value, obj.score);
+  });
+  return TopRankerList;
+}
+
+//내 랭킹정보 조회
+async function getMyRankingInfo(userId) {
+  const rawMyRankingInfo = await RedisDAO.getMyRankingInfo(userId);
+  const myRankingInfo = new RankingInfo(rawMyRankingInfo[0] + 1, userId, rawMyRankingInfo[1]);
+  return myRankingInfo;
+}
+
+module.exports = {
+  getRaidStatus,
+  enterRaid,
+  getRaidRecode,
+  endRaid,
+  getTopRankList,
+  getMyRankingInfo,
+};

@@ -5,6 +5,7 @@ async function getRecodeByUserId(userId) {
     return await recodeModel.findAll({
       where: { userId: userId },
       attributes: [["id", "raidRecordId"], "score", "enterTime", "endTime"],
+      raw: true,
     });
   } catch (error) {
     throw new Error("getRecodeByUserId 에러");
@@ -36,4 +37,9 @@ async function getRecodeForEnd(userId, raidRecordId) {
   }
 }
 
-module.exports = { getRecodeByUserId, createRecode, updateRecode, getRecodeForEnd };
+module.exports = {
+  getRecodeByUserId,
+  createRecode,
+  updateRecode,
+  getRecodeForEnd,
+};
