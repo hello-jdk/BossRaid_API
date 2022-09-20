@@ -3,6 +3,7 @@ const { BadRequestError } = require("../../interface/errorType");
 const UserDAO = require("../dao/userDAO");
 const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
+const { RankingInfo } = require("../../interface/RankingInfo");
 
 async function getRaidStatus() {
   const raidInfo = {};
@@ -73,9 +74,13 @@ async function endRaid(recode) {
   await RedisDAO.updateRaidSatusByEnd();
 }
 
+//랭킹리스트 조회
 async function getTopRankList() {
-  const topRankerList = await RedisDAO.getTopRankList();
-  console.log(topRankerList);
+  const rowTopRankerList = await RedisDAO.getTopRankList();
+  const TopRankerList = rowTopRankerList.reverse().map((obj, index) => {
+    return new RankingInfo(index + 1, obj.value, obj.score);
+  });
+  return TopRankerList;
 }
 
 module.exports = {

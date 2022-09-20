@@ -68,12 +68,12 @@ async function getRankerList(req, res, next) {
   const { userId } = req.body;
 
   try {
-    //1. 전체 리스트를 가져온다 RankingInfo[]
+    // 전체 리스트 조회
     const topRankerInfoList = await BossRaidService.getTopRankList();
-    //2. 내 랭킹 정보를 가져온다 RankingInfo
-    //const myRankingInfo = await BossRaidService.getMyRankingInfo(userId);
+    // 내 랭킹정보 조회
+    // const myRankingInfo = await BossRaidService.getMyRankingInfo(userId);
 
-    //보낸다.
+    //응답
     return res
       .status(StatusCodes.OK)
       .send({ topRankerInfoList: topRankerInfoList, myRankingInfo: "myRankingInfo" });
