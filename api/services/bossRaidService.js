@@ -76,11 +76,18 @@ async function endRaid(recode) {
 
 //랭킹리스트 조회
 async function getTopRankList() {
-  const rowTopRankerList = await RedisDAO.getTopRankList();
-  const TopRankerList = rowTopRankerList.reverse().map((obj, index) => {
+  const rawTopRankerList = await RedisDAO.getTopRankList();
+  const TopRankerList = rawTopRankerList.reverse().map((obj, index) => {
     return new RankingInfo(index + 1, obj.value, obj.score);
   });
   return TopRankerList;
+}
+
+//내 랭킹정보 조회
+async function getMyRankingInfo(userId) {
+  const rawMyRankingInfo = await RedisDAO.getMyRankingInfo(userId);
+  const myRankingInfo = new RankingInfo(rawMyRankingInfo.rank + 1, userId, rawMyRankingInfo.score);
+  return myRankingInfo;
 }
 
 module.exports = {
@@ -89,4 +96,5 @@ module.exports = {
   getRaidRecode,
   endRaid,
   getTopRankList,
+  getMyRankingInfo,
 };

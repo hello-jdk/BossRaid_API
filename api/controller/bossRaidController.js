@@ -71,12 +71,12 @@ async function getRankerList(req, res, next) {
     // 전체 리스트 조회
     const topRankerInfoList = await BossRaidService.getTopRankList();
     // 내 랭킹정보 조회
-    // const myRankingInfo = await BossRaidService.getMyRankingInfo(userId);
+    const myRankingInfo = await BossRaidService.getMyRankingInfo(userId);
 
     //응답
     return res
       .status(StatusCodes.OK)
-      .send({ topRankerInfoList: topRankerInfoList, myRankingInfo: "myRankingInfo" });
+      .send({ topRankerInfoList: topRankerInfoList, myRankingInfo: myRankingInfo });
   } catch (error) {
     next(error);
   }

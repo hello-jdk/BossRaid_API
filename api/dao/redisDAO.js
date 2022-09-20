@@ -83,6 +83,13 @@ async function getTopRankList() {
   return await redis.zRangeWithScores("leaderboard", 0, -1);
 }
 
+async function getMyRankingInfo(userId) {
+  userId = String(userId);
+  const rank = await redis.ZREVRANK("leaderboard", userId);
+  const score = await redis.zScore("leaderboard", userId);
+  return { rank, score };
+}
+
 module.exports = {
   checkRaidStatus,
   getEnteredUserId,
@@ -94,4 +101,5 @@ module.exports = {
   getScore,
   createRank,
   getTopRankList,
+  getMyRankingInfo,
 };
