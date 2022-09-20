@@ -36,4 +36,9 @@ async function getRecodeForEnd(userId, raidRecordId) {
   }
 }
 
-module.exports = { getRecodeByUserId, createRecode, updateRecode, getRecodeForEnd };
+module.exports = {
+  getRecodeByUserId,
+  createRecode,
+  updateRecode,
+  getRecodeForEnd,
+};

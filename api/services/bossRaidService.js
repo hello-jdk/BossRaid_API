@@ -32,7 +32,6 @@ async function enterRaid(userId, level) {
   //레이드 정보 가져오기
   const raidInfo = await RedisDAO.getRaidInfo(level);
 
-  //TODO: 리펙토링
   const bossRaidLimitSeconds = raidInfo.bossRaidLimitSeconds;
   const score = raidInfo.score;
 
@@ -74,4 +73,15 @@ async function endRaid(recode) {
   await RedisDAO.updateRaidSatusByEnd();
 }
 
-module.exports = { getRaidStatus, enterRaid, getRaidRecode, endRaid };
+async function getTopRankList() {
+  const topRankerList = await RedisDAO.getTopRankList();
+  console.log(topRankerList);
+}
+
+module.exports = {
+  getRaidStatus,
+  enterRaid,
+  getRaidRecode,
+  endRaid,
+  getTopRankList,
+};
