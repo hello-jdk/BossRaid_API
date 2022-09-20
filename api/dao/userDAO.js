@@ -1,5 +1,6 @@
 const { userModel, sequelize } = require("../../models");
 
+//유저생성
 async function createUser() {
   try {
     return await userModel.create();
@@ -8,6 +9,7 @@ async function createUser() {
   }
 }
 
+//유저조회 (id)
 async function getUserById(userId) {
   try {
     return await userModel.findByPk(userId, { raw: true });
@@ -16,6 +18,7 @@ async function getUserById(userId) {
   }
 }
 
+//유저수정 (전체점수)
 async function updateTotalScore(userId, score) {
   const t = await sequelize.transaction();
   try {
