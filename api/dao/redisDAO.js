@@ -8,6 +8,7 @@ async function checkRaidStatus() {
 
   if (canEnter == null) {
     await redis.hSet(URL, "canEnter", 1);
+    return "1";
   }
 
   return canEnter;
