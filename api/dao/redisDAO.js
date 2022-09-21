@@ -98,6 +98,7 @@ async function getMyRankingInfo(userId) {
   return result;
 }
 
+//랭킹 정보 갱신
 async function updateTotalScore(user) {
   const userId = String(user.id);
   const totalScore = user.totalScore;

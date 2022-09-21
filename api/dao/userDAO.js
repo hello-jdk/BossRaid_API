@@ -33,6 +33,7 @@ async function updateTotalScore(userId, score) {
     throw new Error("updateTotalScore 에러");
   }
 }
+
 module.exports = {
   createUser,
   getUserById,

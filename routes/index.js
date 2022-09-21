@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 const userController = require("../api/controller/userController");
 const bossRaidController = require("../api/controller/bossRaidController");
-const topRankerListController = {};
 
 //user
 router.post("/user", userController.createUser);

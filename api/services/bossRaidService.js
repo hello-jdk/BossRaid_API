@@ -3,7 +3,7 @@ const { BadRequestError } = require("../../interface/errorType");
 const UserDAO = require("../dao/userDAO");
 const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
-const { RankingInfo } = require("../../interface/RankingInfo");
+const { RankingInfo } = require("../../interface/rankingInfoType");
 
 //레이드 입장가능여부 조회
 async function getRaidStatus() {
