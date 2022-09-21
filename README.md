@@ -8,8 +8,6 @@ BossRaid_PVE Game contents API
 
 유저 생성과 보스 레이드 PVE 컨텐츠에 대한 RESTful API 서버
 
-- 캐시 서버로 Redis를 사용하였습니다.
-
 - API 개요
   - 유저 생성 : 중복되지 않는 `userId` 응답
   - 유저 조회 : 해당 `유저의 통합 점수`와 `레이드의 기록` 응답
@@ -20,9 +18,9 @@ BossRaid_PVE Game contents API
 
 ## 📌 ERD
 
-- MySQL
+- MySQL <br>
   <img width="70%" alt="1" src="https://user-images.githubusercontent.com/57665888/191619995-9f731135-e062-4cec-8973-eaf99286a08c.png">
-- Redis
+- Redis <br>
   <img width="70%" alt="1" src="https://user-images.githubusercontent.com/57665888/191619991-5e20b5ee-2d71-4f37-9b4b-74822446cb1d.png">
 
 ## 📌 API DOCS
