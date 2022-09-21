@@ -4,11 +4,8 @@ const { StatusCodes } = require("http-status-codes");
 //POST 유저생성
 async function createUser(req, res, next) {
   try {
-    //생성된 유저ID
+    //새로운 유저 생성
     const createdUserId = await UserService.createUserGetId();
-
-    //랭킹리스트에 삽입
-    await UserService.createUserOfRankList(createdUserId);
 
     //응답
     return res.status(StatusCodes.OK).send({ userId: createdUserId });

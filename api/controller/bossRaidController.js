@@ -68,7 +68,7 @@ async function getRankerList(req, res, next) {
   const { userId } = req.body;
 
   try {
-    // 전체 리스트 조회
+    // 전체 랭킹리스트 조회
     const topRankerInfoList = await BossRaidService.getTopRankList();
     // 내 랭킹정보 조회
     const myRankingInfo = await BossRaidService.getMyRankingInfo(userId);

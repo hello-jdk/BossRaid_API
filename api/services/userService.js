@@ -3,19 +3,21 @@ const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
 const { BadRequestError } = require("../../interface/errorType");
 
-//TODO: 두개로 나누기
+//새로운 유저 생성
 async function createUserGetId() {
+  //DB 유저생성
   const createdUserEntity = await UserDAO.createUser();
 
   //데이터가공
   const createdUserId = createdUserEntity.dataValues.id;
+
+  //랭킹 리스트 삽입
+  await RedisDAO.createRank(createdUserId);
+
   return createdUserId;
 }
 
-async function createUserOfRankList(userId) {
-  await RedisDAO.createRank(userId);
-}
-
+//
 async function getUserScore(userId) {
   const userEntity = await UserDAO.getUserById(userId);
   if (!userEntity) {
@@ -34,7 +36,6 @@ async function getUserRecode(userId) {
 
 module.exports = {
   createUserGetId,
-  createUserOfRankList,
   getUserScore,
   getUserRecode,
 };
