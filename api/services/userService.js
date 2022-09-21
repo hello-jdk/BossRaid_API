@@ -17,8 +17,8 @@ async function createUserGetId() {
   return createdUserId;
 }
 
-//
-async function getUserScore(userId) {
+//유저 점수 조회
+async function getUserTotalScore(userId) {
   const userEntity = await UserDAO.getUserById(userId);
   if (!userEntity) {
     throw new BadRequestError("id에 해당하는 유저가 없습니다.");
@@ -26,9 +26,11 @@ async function getUserScore(userId) {
 
   //데이터가공
   const userTotalScore = userEntity.totalScore;
+
   return userTotalScore;
 }
 
+//유저 보스레이드 기록 조회
 async function getUserRecode(userId) {
   const userRecodes = await RecodeDAO.getRecodeByUserId(userId);
   return userRecodes;
@@ -36,6 +38,6 @@ async function getUserRecode(userId) {
 
 module.exports = {
   createUserGetId,
-  getUserScore,
+  getUserTotalScore,
   getUserRecode,
 };

@@ -20,7 +20,7 @@ async function getUser(req, res, next) {
     const userId = req.params.userId;
 
     //유저점수합계 조회
-    const userTotalScore = await UserService.getUserScore(userId);
+    const userTotalScore = await UserService.getUserTotalScore(userId);
 
     //보스레이드기록 조회
     const userBossRaidHistory = await UserService.getUserRecode(userId);
