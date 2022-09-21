@@ -2,7 +2,107 @@
 
 BossRaid_PVE Game contents API
 
-## Commit Convention
+## 📌 개요
+
+유저 생성과 보스 레이드 PVE 컨텐츠에 대한 RESTful API 서버
+
+- 유저 생성 : 중복되지 않는 `userId` 응답
+- 유저 조회 : 해당 유저의 통합 점수와 레이드의 기록 응답
+- 보스레이드 상태 조회 : 레디스에 저장 되며 입장가능 여부와 현재 입장한 유저의 아이디 기록 및 응답
+- 보스레이드 시작 : `레이드 입장 가능여부` -> `레이드 정보 확인` -> 중복되지않는 레이드 번호 응답
+- 보스레이드 종료 : 저장된 레이드 기록 확인 (저장된 userId 일치여부) -> 제한시간 내 종료 여부 -> 기록 (응답 없음)
+- 랭킹 조회 : `레디스 sorted set 사용` 해당 인터페이스에 맞는 응답
+
+```
+class RankingInfo {
+  constructor(ranking, userId, totalScore) {
+    this.ranking = Number(ranking);
+    this.userId = Number(userId);
+    this.totalScore = Number(totalScore);
+  }
+}
+```
+
+## 📌 ERD
+
+## 📌 API DOCS
+
+## 📌 How To Use
+
+```
+npm install
+npm start
+```
+
+## 📌 디렉터리 구조
+
+```
+BossRaid_API
+│  .env
+│  .prettierrc.json
+│  index.js
+│  package.json
+│  README.md
+│
+├─api
+│  ├─controller
+│  │      bossRaidController.js
+│  │      userController.js
+│  │
+│  ├─dao
+│  │      recodeDAO.js
+│  │      redisDAO.js
+│  │      userDAO.js
+│  │
+│  └─services
+│         bossRaidService.js
+│         userService.js
+│
+├─config
+│      index.js
+│
+├─interface
+│      errorType.js
+│      rankingInfoType.js
+│
+├─loaders
+│      errorHandler.js
+│      index.js
+│
+├─models
+│      index.js
+│      recodeModel.js
+│      userModel.js
+│
+└─routes
+        index.js
+```
+
+## 📌 환경 설정
+
+```
+PORT =
+
+REDIS_HOST=
+REDIS_PORT=
+REDIS_USERNAME=
+REDIS_PASSWORD=
+
+DB_HOST=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+```
+
+## 📌 적용 기술
+
+- 사용언어 : `Javascript`
+- 런타임 환경 : `Node.js`
+- 프레임워크 : `Express`
+- 데이터베이스 : `Mysql` `Redis`
+- ORM : `Sequelize`
+
+## 📌 Commit Convention
 
 - `<동사원형>`: `<본문내용>` `<작성/수정/삭제>`
 
