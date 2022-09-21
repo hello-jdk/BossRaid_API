@@ -68,7 +68,7 @@ async function endRaid(recode) {
   //보스레이드 상태변경
   await RedisDAO.updateRaidSatusByEnd();
 
-  //시간안에 깻는가?
+  //남은 시간 계산
   const restTime = moment(recode.endTime).diff();
   if (restTime > 0) {
     //점수기록
