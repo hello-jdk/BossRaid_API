@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const BossRaidService = require("../services/bossRaidService");
 
-//GET 레이드상태 조회
+//GET 레이드상태(입장가능여부) 조회
 async function getRaidStatus(req, res, next) {
   try {
     //레이드상태 조회
@@ -27,7 +27,8 @@ async function enterRaid(req, res, next) {
   const { userId, level } = req.body;
 
   try {
-    //레이드 입장가능 여부
+    ////TODO: 레이드입장 REDIS 합쳐버리기 상태조회 -> 레이드 입장 (트랜잭션)
+    //레이드상태 조회
     const raidStatus = await BossRaidService.getRaidStatus();
     const canEnter = raidStatus.canEnter;
 

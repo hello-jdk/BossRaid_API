@@ -5,6 +5,7 @@ const RecodeDAO = require("../dao/recodeDAO");
 const RedisDAO = require("../dao/redisDAO");
 const { RankingInfo } = require("../../interface/RankingInfo");
 
+//레이드 입장가능여부 조회
 async function getRaidStatus() {
   const raidInfo = {};
   const raidStatus = await RedisDAO.checkRaidStatus();
@@ -22,8 +23,9 @@ async function getRaidStatus() {
   return raidInfo;
 }
 
+//레이드 입장
 async function enterRaid(userId, level) {
-  //레이드 정보있는지 확인
+  //레이드 정보 확인
   const infoExist = await RedisDAO.checkRaidInfo(level);
 
   if (!infoExist) {
@@ -33,12 +35,14 @@ async function enterRaid(userId, level) {
   //레이드 정보 가져오기
   const raidInfo = await RedisDAO.getRaidInfo(level);
 
+  //데이터 가공
   const bossRaidLimitSeconds = raidInfo.bossRaidLimitSeconds;
   const score = raidInfo.score;
 
   //레디스 레이드 상태변경
   await RedisDAO.updateRaidSatusByEnter(userId, score);
 
+  //데이터 가공
   const enterTime = moment().format("YYYY-MM-DD HH:mm:ss");
   const endTime = moment().add(bossRaidLimitSeconds, "seconds").format("YYYY-MM-DD HH:mm:ss");
   const recode = { userId: userId, score: 0, enterTime: enterTime, endTime: endTime };
@@ -50,6 +54,7 @@ async function enterRaid(userId, level) {
   return { raidRecordId };
 }
 
+//해당 레이드 진행 존재 여부
 async function getRaidRecode(userId, raidRecordId) {
   const recode = await RecodeDAO.getRecodeForEnd(userId, raidRecordId);
   if (recode == null) {
@@ -58,7 +63,11 @@ async function getRaidRecode(userId, raidRecordId) {
   return recode;
 }
 
+//레이드 퇴장
 async function endRaid(recode) {
+  //보스레이드 상태변경
+  await RedisDAO.updateRaidSatusByEnd();
+
   //시간안에 깻는가?
   const restTime = moment(recode.endTime).diff();
   if (restTime > 0) {
@@ -66,17 +75,17 @@ async function endRaid(recode) {
     recode.endTime = moment().format("YYYY-MM-DD HH:mm:ss");
     recode.score = await RedisDAO.getScore();
 
-    //업데이트
+    ////업데이트
+    //히스토리 갱신
     await RecodeDAO.updateRecode(recode);
+    //유저 통합점수 갱신
     const updatedUser = await UserDAO.updateTotalScore(recode.userId, recode.score);
+    //랭킹 갱신
     await RedisDAO.updateTotalScore(updatedUser);
   }
-
-  //보스레이드 상태변경
-  await RedisDAO.updateRaidSatusByEnd();
 }
 
-//랭킹리스트 조회
+//랭킹 조회
 async function getTopRankList() {
   const rawTopRankerList = await RedisDAO.getTopRankList();
   const TopRankerList = rawTopRankerList.reverse().map((obj, index) => {
@@ -85,7 +94,7 @@ async function getTopRankList() {
   return TopRankerList;
 }
 
-//내 랭킹정보 조회
+//내 랭킹 조회
 async function getMyRankingInfo(userId) {
   const rawMyRankingInfo = await RedisDAO.getMyRankingInfo(userId);
   const myRankingInfo = new RankingInfo(rawMyRankingInfo[0] + 1, userId, rawMyRankingInfo[1]);
